@@ -5,18 +5,22 @@ using UnityEngine.UI;
 
 public class SkillView : MonoBehaviour
 {
-    [SerializeField] private SkillData skillData;
+    [SerializeField] private string skillId;
     [SerializeField] private Image skillImage;
     [SerializeField] private TextMeshProUGUI skillNameText;
     [SerializeField] private TextMeshProUGUI skillPointsText;
 
-    [Header("StateView")] [SerializeField] private GameObject learnedFrame;
+    [Header("ViewState")] 
+    [SerializeField] private GameObject learnedFrame;
     [SerializeField] private GameObject selectedFrame;
     [SerializeField] private Button selectButton;
 
-    public SkillData SkillData => skillData;
+    public Action ViewSelected;
 
-    public Action<SkillView, SkillData> ViewSelected;
+    public string SkillId
+    {
+        get => skillId;
+    }
 
     public void Init(Sprite skillSprite, string skillName, string skillPoints)
     {
@@ -27,7 +31,7 @@ public class SkillView : MonoBehaviour
         skillPointsText.text = skillPoints;
     }
 
-    private void Start() => selectButton.onClick.AddListener(() => ViewSelected(this, SkillData));
+    private void Start() => selectButton.onClick.AddListener(() => ViewSelected());
 
     public void SetSelectSelect(bool isSelected) => selectedFrame.SetActive(isSelected);
 

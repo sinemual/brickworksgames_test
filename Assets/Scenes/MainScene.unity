@@ -135,6 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 18312881}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: fireball
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
       objectReference: {fileID: 11400000, guid: fd9b6d658003f69458b1f8278e183e6b, type: 2}
@@ -266,6 +270,10 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 118593823}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: grenade
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
@@ -416,18 +424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366750f2ec6e42bd9d650239e24cca46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillData:
-  - {fileID: 11400000, guid: d2a9afe5ef018d646b155d309169d695, type: 2}
-  - {fileID: 11400000, guid: dc09e511579fa474c9b8ebd02c7fce8d, type: 2}
-  - {fileID: 11400000, guid: fe31742b0e417f1439b2175730207253, type: 2}
-  - {fileID: 11400000, guid: 5c3a1a2d1ca6dfa4dbdf53fdc7ac09d4, type: 2}
-  - {fileID: 11400000, guid: 3ae8e2bc5f512274b9a712d0649364d3, type: 2}
-  - {fileID: 11400000, guid: 076a31ae9031bed4fb141f468bf4ffaf, type: 2}
-  - {fileID: 11400000, guid: 7b085e259dbc2e746925699a13f763a1, type: 2}
-  - {fileID: 11400000, guid: 0945773fd6f470e4e9871bbacf48ed13, type: 2}
-  - {fileID: 11400000, guid: 515ccc90713d1124ab3cf726faae9f10, type: 2}
-  - {fileID: 11400000, guid: fd9b6d658003f69458b1f8278e183e6b, type: 2}
-  - {fileID: 11400000, guid: 5c91b66d28ddf5b4a9f92f08c3558c55, type: 2}
   playerSkillsData: {fileID: 11400000, guid: 890db09331617194489848064abbad5f, type: 2}
 --- !u!4 &121045459
 Transform:
@@ -701,6 +697,10 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 389150347}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: vampire
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
@@ -1627,6 +1627,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 858284067}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: splash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
       objectReference: {fileID: 11400000, guid: 7b085e259dbc2e746925699a13f763a1, type: 2}
@@ -1758,6 +1762,10 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 947243182}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: shoot
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
@@ -1974,6 +1982,10 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 967659511}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: teleport
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
@@ -2530,6 +2542,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1036643656}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
       objectReference: {fileID: 11400000, guid: fe31742b0e417f1439b2175730207253, type: 2}
@@ -2935,6 +2951,10 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 1385583089}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: hit
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
@@ -3622,6 +3642,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1743303976}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 
       objectReference: {fileID: 11400000, guid: 5c3a1a2d1ca6dfa4dbdf53fdc7ac09d4, type: 2}
@@ -4308,6 +4332,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1020842356}
     m_Modifications:
+    - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
+      propertyPath: skillId
+      value: jump
+      objectReference: {fileID: 0}
     - target: {fileID: 1381618747303286821, guid: d6b8672ff2bca8c48b02957937130b22, type: 3}
       propertyPath: skillData
       value: 

@@ -15,8 +15,6 @@ public class SkillTreeScreen : MonoBehaviour
 
     public List<SkillView> SkillViews => skillViews;
 
-    public TextMeshProUGUI SkillPointsText => skillPointsText;
-
     private SkillTree _skillTree;
 
     public void Inject(SkillTree skillTree)

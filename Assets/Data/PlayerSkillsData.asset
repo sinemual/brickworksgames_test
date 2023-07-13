@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e62f5c254344b46bf07de40bee98dac, type: 3}
   m_Name: PlayerSkillsData
   m_EditorClassIdentifier: 
+  SkillsData:
+  - {fileID: 11400000, guid: d2a9afe5ef018d646b155d309169d695, type: 2}
+  - {fileID: 11400000, guid: dc09e511579fa474c9b8ebd02c7fce8d, type: 2}
+  - {fileID: 11400000, guid: fe31742b0e417f1439b2175730207253, type: 2}
+  - {fileID: 11400000, guid: 5c3a1a2d1ca6dfa4dbdf53fdc7ac09d4, type: 2}
+  - {fileID: 11400000, guid: 3ae8e2bc5f512274b9a712d0649364d3, type: 2}
+  - {fileID: 11400000, guid: 076a31ae9031bed4fb141f468bf4ffaf, type: 2}
+  - {fileID: 11400000, guid: 7b085e259dbc2e746925699a13f763a1, type: 2}
+  - {fileID: 11400000, guid: 0945773fd6f470e4e9871bbacf48ed13, type: 2}
+  - {fileID: 11400000, guid: 515ccc90713d1124ab3cf726faae9f10, type: 2}
+  - {fileID: 11400000, guid: fd9b6d658003f69458b1f8278e183e6b, type: 2}
+  - {fileID: 11400000, guid: 5c91b66d28ddf5b4a9f92f08c3558c55, type: 2}
   PlayerSkillPoints: 0
   BaseSkillData: {fileID: 11400000, guid: d2a9afe5ef018d646b155d309169d695, type: 2}

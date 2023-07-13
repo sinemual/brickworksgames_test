@@ -7,6 +7,6 @@ public class Game : MonoBehaviour
 
     private void Awake()
     {
-        SkillTree skillTree = new SkillTree(_data.playerSkillsData, _data.skillData, _ui.skillTreeScreen);
+        SkillTree skillTree = new SkillTree(_data.playerSkillsData, _ui.skillTreeScreen);
     }
 }

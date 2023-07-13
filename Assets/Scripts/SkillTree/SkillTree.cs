@@ -5,63 +5,56 @@ using UnityEngine;
 
 public class SkillTree
 {
-    private readonly List<SkillData> _skillData;
     private readonly SkillTreeScreen _ui;
-    private readonly PlayerSkillsData _playerData;
+    private readonly PlayerSkillsData _playerSkillData;
 
-    private SkillData _selectedSkillData;
-    private SkillView _selectedSkillView;
+    private Dictionary<string, Skill> _skills;
+    private Skill _selected;
 
-    public SkillTree(PlayerSkillsData playerData, List<SkillData> skillData, SkillTreeScreen ui)
+    public SkillTree(PlayerSkillsData playerSkillData, SkillTreeScreen ui)
     {
-        _skillData = skillData;
         _ui = ui;
-        _playerData = playerData;
+        _playerSkillData = playerSkillData;
+
         _ui.Inject(this);
 
-        _playerData.LearningSkillsState = new Dictionary<string, bool>();
-        foreach (var idx in _skillData)
-            _playerData.LearningSkillsState.Add(idx.Id, false);
-
-        _ui.ChangePlayerSkillPointText(playerData.PlayerSkillPoints.ToString());
-        MapViewData();
-        InitBaseSkill();
+        MapDataWithView(_playerSkillData.SkillsData, _ui.SkillViews);
+        InitLearningSkillStates();
+        LearnBaseSkillOnStart();
+       
+        _ui.ChangePlayerSkillPointText(playerSkillData.PlayerSkillPoints.ToString());
     }
 
-    private void MapViewData()
+    private void LearnBaseSkillOnStart()
     {
-        var skillViews = _ui.SkillViews;
+        _playerSkillData.LearningSkillsState[_playerSkillData.BaseSkillData.Id] = true;
+        _skills[_playerSkillData.BaseSkillData.Id].View.SetLearnState(true);
+        UpdateLearnStates();
+    }
 
-        foreach (var idx in _skillData)
+    private void InitLearningSkillStates()
+    {
+        _playerSkillData.LearningSkillsState = new Dictionary<string, bool>();
+        foreach (var idx in _skills.Values)
+            _playerSkillData.LearningSkillsState.Add(idx.Data.Id, false);
+    }
+
+    private void MapDataWithView(List<SkillData> skillData, List<SkillView> skillViews)
+    {
+        _skills = new Dictionary<string, Skill>();
+        foreach (var data in skillData)
         {
-            var skillView = skillViews.First(x => x.SkillData == idx);
-            skillView.Init(idx.Sprite, idx.SkillName, idx.SkillPoints.ToString());
-            skillView.ViewSelected += OnViewSelected;
+            var skill = new Skill(data, skillViews.First(view => view.SkillId == data.Id));
+            skill.SelectSkill += (selected) =>
+            {
+                _selected = selected;
+                UpdateViewStates();
+            };
+            _skills.Add(data.Id, skill);
         }
     }
 
-    private void InitBaseSkill()
-    {
-        _playerData.LearningSkillsState[_playerData.BaseSkillData.Id] = true;
-        foreach (var view in _ui.SkillViews)
-            if (view.SkillData == _playerData.BaseSkillData)
-                view.SetLearnState(true);
-    }
-
-    private void OnViewSelected(SkillView skillView, SkillData data)
-    {
-        _selectedSkillData = _skillData.First(x => x.Id == data.Id);
-        _selectedSkillView = skillView;
-
-        foreach (var view in _ui.SkillViews)
-            view.SetSelectSelect(false);
-
-        skillView.SetSelectSelect(true);
-
-        UpdateViewStates();
-    }
-
-    private bool IsPlayerHasSkillPoints() => _playerData.PlayerSkillPoints >= _selectedSkillData.SkillPoints;
+    private bool IsPlayerHasSkillPoints(SkillData data) => _playerSkillData.PlayerSkillPoints >= data.SkillPoints;
 
     public void EarnSkillPoint()
     {
@@ -71,72 +64,80 @@ public class SkillTree
 
     private void UpdateViewStates()
     {
-        _ui.SetForgetSkillButtonState(IsSkillCanBeForgot());
-        bool learnConditions = !_playerData.LearningSkillsState[_selectedSkillData.Id] && IsPlayerHasSkillPoints() && IsSkillCanBeLearned();
+        _ui.SetForgetSkillButtonState(IsSkillCanBeForgot(_selected.Data));
+
+        var skillIsLearned = _playerSkillData.LearningSkillsState[_selected.Data.Id];
+
+        bool learnConditions = !skillIsLearned &&
+                               IsPlayerHasSkillPoints(_selected.Data) &&
+                               IsSkillCanBeLearned(_selected.Data);
+
         _ui.SetLearnSkillButtonState(learnConditions);
+        _selected.View.SetLearnState(skillIsLearned);
+
+        foreach (var skill in _skills.Values)
+            skill.View.SetSelectSelect(skill.View == _selected.View);
+
+        UpdateLearnStates();
+    }
+
+    private void UpdateLearnStates()
+    {
+        foreach (var skill in _playerSkillData.LearningSkillsState)
+            _skills[skill.Key].View.SetLearnState(skill.Value); 
     }
 
     public void LearnSkill()
     {
-        _playerData.LearningSkillsState[_selectedSkillData.Id] = true;
-        ChangeSkillPoints(-_selectedSkillData.SkillPoints);
-        _selectedSkillView.SetLearnState(true);
+        _playerSkillData.LearningSkillsState[_selected.Data.Id] = true;
+        ChangeSkillPoints(-_selected.Data.SkillPoints);
         UpdateViewStates();
     }
 
     public void ForgetSkill()
     {
-        _playerData.LearningSkillsState[_selectedSkillData.Id] = false;
-        ChangeSkillPoints(_selectedSkillData.SkillPoints);
-        _selectedSkillView.SetLearnState(false);
+        _playerSkillData.LearningSkillsState[_selected.Data.Id] = false;
+        ChangeSkillPoints(_selected.Data.SkillPoints);
         UpdateViewStates();
     }
 
     public void ForgetAllSkills()
     {
-        Dictionary<string, bool> temp = new Dictionary<string, bool>();
-        foreach (var skill in _playerData.LearningSkillsState)
-            temp.Add(skill.Key, false);
+        foreach (var key in _playerSkillData.LearningSkillsState.Keys.ToList())
+            _playerSkillData.LearningSkillsState[key] = false;
 
-        foreach (var idx in temp)
-        {
-            if(idx.Key == _playerData.BaseSkillData.Id)
-                continue;
-            
-            _playerData.LearningSkillsState[idx.Key] = idx.Value;
-        }
+        _playerSkillData.LearningSkillsState[_playerSkillData.BaseSkillData.Id] = true;
 
-        foreach (var skillData in _skillData)
-            if (_playerData.LearningSkillsState[skillData.Id])
-                ChangeSkillPoints(skillData.SkillPoints);
+        foreach (var skill in _skills)
+            if (_playerSkillData.LearningSkillsState[skill.Value.Data.Id])
+                ChangeSkillPoints(skill.Value.Data.SkillPoints);
 
-        foreach (var skillView in _ui.SkillViews)
-            skillView.SetLearnState(_playerData.LearningSkillsState[skillView.SkillData.Id]);
+        UpdateViewStates();
     }
 
     private void ChangeSkillPoints(int value)
     {
-        _playerData.PlayerSkillPoints += value;
-        _ui.ChangePlayerSkillPointText(_playerData.PlayerSkillPoints.ToString());
+        _playerSkillData.PlayerSkillPoints += value;
+        _ui.ChangePlayerSkillPointText(_playerSkillData.PlayerSkillPoints.ToString());
     }
 
-    private bool IsSkillCanBeLearned()
+    private bool IsSkillCanBeLearned(SkillData data)
     {
-        foreach (var neighbour in _selectedSkillData.NeighbourSkills)
+        foreach (var neighbour in data.NeighbourSkills)
         {
-            if (_playerData.LearningSkillsState[neighbour.Id] && IsThisSkillHasPathToBase(neighbour))
+            if (_playerSkillData.LearningSkillsState[neighbour.Id] && IsThisSkillHasPathToBase(neighbour))
                 return true;
         }
 
         return false;
     }
 
-    private bool IsSkillCanBeForgot()
+    private bool IsSkillCanBeForgot(SkillData data)
     {
-        if (!_playerData.LearningSkillsState[_selectedSkillData.Id])
+        if (!_playerSkillData.LearningSkillsState[data.Id])
             return false;
 
-        foreach (var neighbour in _selectedSkillData.NeighbourSkills)
+        foreach (var neighbour in data.NeighbourSkills)
         {
             if (!IsThisSkillHasPathToBase(neighbour))
                 return false;
@@ -154,23 +155,23 @@ public class SkillTree
         {
             SkillData current = queue.Dequeue();
             visited.Add(current);
-            
-            if (current == _playerData.BaseSkillData)
+
+            if (current == _playerSkillData.BaseSkillData)
                 return true;
-            
+
             foreach (var neighbor in current.NeighbourSkills)
             {
-                if (!_playerData.LearningSkillsState[neighbor.Id])
+                if (!_playerSkillData.LearningSkillsState[neighbor.Id])
                     continue;
 
                 if (visited.Contains(neighbor))
                     continue;
-                
-                if (neighbor == _selectedSkillData)
+
+                if (neighbor == _selected.Data)
                     continue;
 
                 queue.Enqueue(neighbor);
-                if (neighbor == _playerData.BaseSkillData)
+                if (neighbor == _playerSkillData.BaseSkillData)
                     return true;
             }
         }
